@@ -7,15 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mxschmitt/heroku-playwright-example.git"
+    "url": "git+https://github.com/nathanczachur/heroku-playwright-example.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mxschmitt/heroku-playwright-example/issues"
+    "url": "https://github.com/nathanczachur/heroku-playwright-example/issues"
   },
-  "homepage": "https://github.com/mxschmitt/heroku-playwright-example#readme",
+  "homepage": "https://github.com/nathanczachur/heroku-playwright-example#readme",
   "dependencies": {
     "express": "^4.17.1",
     "playwright-chromium": "^1.9.0",
