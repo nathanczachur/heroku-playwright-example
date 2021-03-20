@@ -70,7 +70,7 @@ app.get("/flashscore/matches", async (req, res) => {
     })
     const page = await browser.newPage()
     await page.goto("https://www.flashscore.com", {
-      timeout: 20 * 1000,
+      timeout: 60 * 1000,
       waitUntil: "load"
     })
     
