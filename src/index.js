@@ -46,6 +46,35 @@ app.get("/browser/:name", async (req, res) => {
   }
 });
 
+app.get("/flashscore/matches", async (req, res) => {
+  try {
+    /** @type {import('playwright-chromium').Browser} */
+    const browser = await chromium.launch({
+      chromiumSandbox: false
+    })
+    const page = await browser.newPage()
+    await page.goto("https://www.flashscore.com", {
+      timeout: 10 * 1000,
+      waitUntil: "load"
+    })
+    if (req.query.timeout) {
+      await page.waitForTimeout(parseInt(req.query.timeout, 10))
+    }
+    await page.click('#live-table > div.tabs > div.calendar > div.calendar__datepicker');
+    await browser.close()
+
+    let matches = []
+    let data = {
+      status: 'success',
+      data: matches
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(data, null, 3));
+  } catch (err) {
+    res.status(500).send(`Something went wrong: ${err}`)
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
 });
