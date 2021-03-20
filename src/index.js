@@ -46,6 +46,22 @@ app.get("/browser/:name", async (req, res) => {
   }
 });
 
+function getPreviousSibling(elem, selector) {
+
+  // Get the next sibling element
+  var sibling = elem.previousElementSibling;
+
+  // If there's no selector, return the first sibling
+  if (!selector) return sibling;
+
+  // If the sibling matches our selector, use it
+  // If not, jump to the next sibling and continue the loop
+  while (sibling) {
+    if (sibling.matches(selector)) return sibling;
+    sibling = sibling.previousElementSibling;
+  }
+}
+
 app.get("/flashscore/matches", async (req, res) => {
   try {
     /** @type {import('playwright-chromium').Browser} */
@@ -58,23 +74,7 @@ app.get("/flashscore/matches", async (req, res) => {
       waitUntil: "load"
     })
     
-    const starredLeagues = await page.$$eval('#live-table > section > div > div > div.event__header.top', el => el.innerText);
-    
-    var getPreviousSibling = function (elem, selector) {
-
-      // Get the next sibling element
-      var sibling = elem.previousElementSibling;
-
-      // If there's no selector, return the first sibling
-      if (!selector) return sibling;
-
-      // If the sibling matches our selector, use it
-      // If not, jump to the next sibling and continue the loop
-      while (sibling) {
-        if (sibling.matches(selector)) return sibling;
-        sibling = sibling.previousElementSibling;
-      }
-    };
+    let starredLeagues = await page.$$eval('#live-table > section > div > div > div.event__header.top', el => el.innerText);
 
     let matches = await page
       .$$eval('#live-table > section > div > div > div.event__match', (els) => {
