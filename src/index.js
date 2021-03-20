@@ -76,7 +76,7 @@ app.get("/flashscore/matches", async (req, res) => {
       }
     };
 
-    const matches = await page
+    let matches = await page
       .$$eval('#live-table > section > div > div > div.event__match', (els) => {
         return els.map(el => {
          return {
@@ -88,9 +88,9 @@ app.get("/flashscore/matches", async (req, res) => {
         } 
         })
       })
-      .filter(match => {
-        return starredLeagues.includes(match.league)
-      })
+//       .filter(match => {
+//         return starredLeagues.includes(match.league)
+//       })
     ;
 
     await browser.close()
