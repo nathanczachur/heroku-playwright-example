@@ -46,22 +46,6 @@ app.get("/browser/:name", async (req, res) => {
   }
 });
 
-function getPreviousSibling(elem, selector) {
-
-  // Get the next sibling element
-  var sibling = elem.previousElementSibling;
-
-  // If there's no selector, return the first sibling
-  if (!selector) return sibling;
-
-  // If the sibling matches our selector, use it
-  // If not, jump to the next sibling and continue the loop
-  while (sibling) {
-    if (sibling.matches(selector)) return sibling;
-    sibling = sibling.previousElementSibling;
-  }
-}
-
 app.get("/flashscore/matches", async (req, res) => {
   try {
     /** @type {import('playwright-chromium').Browser} */
@@ -79,6 +63,23 @@ app.get("/flashscore/matches", async (req, res) => {
     let matches = await page
       .$$eval('#live-table > section > div > div > div.event__match', (els) => {
         return els.map(el => {
+          
+          function getPreviousSibling(elem, selector) {
+
+            // Get the next sibling element
+            var sibling = elem.previousElementSibling;
+
+            // If there's no selector, return the first sibling
+            if (!selector) return sibling;
+
+            // If the sibling matches our selector, use it
+            // If not, jump to the next sibling and continue the loop
+            while (sibling) {
+              if (sibling.matches(selector)) return sibling;
+              sibling = sibling.previousElementSibling;
+            }
+          }
+
          return {
           league: getPreviousSibling(el, '.event__header').innerText || 'undefined',
           homeTeamName: el.querySelector('.event__participant.event__participant--home').innerText || 'undefined',
